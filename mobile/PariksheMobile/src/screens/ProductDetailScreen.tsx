@@ -38,6 +38,9 @@ export const ProductDetailScreen = ({ navigation, route }: Props) => {
     };
   }, [productId]);
 
+  const formatPrice = (price?: number) =>
+    price && price > 0 ? `₹${price}` : "Price on request";
+
   return (
     <Screen scroll>
       <View style={styles.card}>
@@ -51,7 +54,7 @@ export const ProductDetailScreen = ({ navigation, route }: Props) => {
               {product?.durationMonths ?? 12} months
             </Text>
             <Text style={styles.meta}>Includes live + recorded + tests + notes</Text>
-            <Text style={styles.price}>₹{product?.price ?? 0}</Text>
+            <Text style={styles.price}>{formatPrice(product?.price)}</Text>
             <TouchableOpacity
               style={styles.primaryButton}
               onPress={() => navigation.navigate("Checkout", { productId })}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
-const API_BASE = "http://localhost:4000/api";
+const API_BASE = "https://parikshe-app.onrender.com/api";
 
 const recent = [
   { user: "9988776655", action: "Purchased PU2 Full-year", time: "10m ago" },
@@ -18,7 +18,6 @@ const quickPanels = [
 ];
 
 function App() {
-  const [adminKey, setAdminKey] = useState(() => localStorage.getItem("adminKey") || "");
   const [kpis, setKpis] = useState([
     { label: "Enrollments (Today)", value: "-" },
     { label: "Active Users", value: "-" },
@@ -27,13 +26,22 @@ function App() {
   ]);
   const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
   const [products, setProducts] = useState<
-    { id: string; title: string; type: string; price: number; categoryId: string }[]
+    {
+      id: string;
+      title: string;
+      type: string;
+      price: number;
+      categoryId: string;
+      durationMonths?: number | null;
+      isActive?: boolean;
+    }[]
   >([]);
   const [form, setForm] = useState({
     title: "",
     categoryId: "",
     type: "full_year",
-    price: 0
+    price: 0,
+    durationMonths: 12
   });
   const [liveForm, setLiveForm] = useState({
     productId: "",
@@ -50,18 +58,9 @@ function App() {
     { id: string; status: string; syncedCount: number; createdAt: string }[]
   >([]);
 
-  const adminFetch = (input: string, init?: RequestInit) => {
-    const headers = {
-      ...(init?.headers ?? {}),
-      "x-admin-key": adminKey
-    } as Record<string, string>;
-    return fetch(input, { ...init, headers });
-  };
+  const adminFetch = (input: string, init?: RequestInit) => fetch(input, init);
 
   useEffect(() => {
-    if (!adminKey) {
-      return;
-    }
     adminFetch(`${API_BASE}/admin/reports`)
       .then(res => res.json())
       .then(data => {
@@ -78,9 +77,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!adminKey) {
-      return;
-    }
     adminFetch(`${API_BASE}/admin/categories`)
       .then(res => res.json())
       .then(data => {
@@ -98,7 +94,7 @@ function App() {
     adminFetch(`${API_BASE}/admin/sync/parikshe/history`)
       .then(res => res.json())
       .then(data => setSyncHistory(data.history ?? []));
-  }, [adminKey]);
+  }, []);
 
   const handleCreateProduct = async () => {
     if (!form.title || !form.categoryId || !form.price) {
@@ -111,13 +107,55 @@ function App() {
         title: form.title,
         categoryId: form.categoryId,
         type: form.type,
-        price: Number(form.price)
+        price: Number(form.price),
+        durationMonths: form.durationMonths ? Number(form.durationMonths) : undefined
       })
     });
     if (response.ok) {
       const refreshed = await adminFetch(`${API_BASE}/admin/products`).then(res => res.json());
       setProducts(refreshed.products ?? []);
-      setForm(prev => ({ ...prev, title: "", price: 0 }));
+      setForm(prev => ({ ...prev, title: "", price: 0, durationMonths: 12 }));
+    }
+  };
+
+  const handleUpdateProduct = async (id: string) => {
+    const title = window.prompt("Update title?");
+    if (!title) {
+      return;
+    }
+    const price = window.prompt("Update price?");
+    if (!price) {
+      return;
+    }
+    const durationMonths = window.prompt("Duration months (optional)?");
+    const type = window.prompt("Type (full_year/crash)?");
+    const response = await adminFetch(`${API_BASE}/admin/products/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title,
+        price: Number(price),
+        durationMonths: durationMonths ? Number(durationMonths) : null,
+        type: type || undefined
+      })
+    });
+    if (response.ok) {
+      const refreshed = await adminFetch(`${API_BASE}/admin/products`).then(res => res.json());
+      setProducts(refreshed.products ?? []);
+    }
+  };
+
+  const handleDeactivateProduct = async (id: string) => {
+    const confirmed = window.confirm("Deactivate this product?");
+    if (!confirmed) {
+      return;
+    }
+    const response = await adminFetch(`${API_BASE}/admin/products/${id}`, {
+      method: "DELETE"
+    });
+    if (response.ok) {
+      const refreshed = await adminFetch(`${API_BASE}/admin/products`).then(res => res.json());
+      setProducts(refreshed.products ?? []);
     }
   };
 
@@ -250,18 +288,7 @@ function App() {
             </button>
             <h1>Dashboard</h1>
           </div>
-          <div className="topbar-meta">
-            <input
-              className="admin-key-input"
-              placeholder="Admin key"
-              value={adminKey}
-              onChange={event => {
-                const value = event.target.value;
-                setAdminKey(value);
-                localStorage.setItem("adminKey", value);
-              }}
-            />
-          </div>
+          <div className="topbar-meta" />
         </header>
 
         <section className="kpi-grid">
@@ -338,6 +365,14 @@ function App() {
               value={form.price}
               onChange={event => setForm(prev => ({ ...prev, price: Number(event.target.value) }))}
             />
+            <input
+              placeholder="Duration (months)"
+              type="number"
+              value={form.durationMonths}
+              onChange={event =>
+                setForm(prev => ({ ...prev, durationMonths: Number(event.target.value) }))
+              }
+            />
             <button onClick={handleCreateProduct}>Create</button>
           </div>
           <table>
@@ -346,7 +381,9 @@ function App() {
                 <th>Title</th>
                 <th>Category</th>
                 <th>Type</th>
+                <th>Status</th>
                 <th>Price</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -355,7 +392,14 @@ function App() {
                   <td>{product.title}</td>
                   <td>{product.categoryId}</td>
                   <td>{product.type}</td>
+                  <td>{product.isActive ? "Active" : "Inactive"}</td>
                   <td>₹{product.price}</td>
+                  <td>
+                    <button onClick={() => handleUpdateProduct(product.id)}>Edit</button>
+                    <button onClick={() => handleDeactivateProduct(product.id)}>
+                      Deactivate
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

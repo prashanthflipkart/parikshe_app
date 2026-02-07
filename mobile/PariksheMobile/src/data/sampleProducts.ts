@@ -8,23 +8,37 @@ export type SampleProduct = {
 
 export const sampleProducts: SampleProduct[] = [
   {
-    id: "batch-sslc-full",
-    title: "SSLC Full-year Batch",
-    price: 4999,
-    type: "full",
-    durationMonths: 12
-  },
-  {
-    id: "batch-sslc-crash",
-    title: "SSLC Crash Course",
-    price: 1999,
+    id: "sslc-crash-2025-26",
+    title: "SSLC Crash Course (2025-26)",
+    price: 999,
     type: "crash",
     durationMonths: 3
   },
   {
-    id: "batch-pu2-science",
-    title: "PU2 Science Full-year",
-    price: 5999,
+    id: "aarambha-2026-1st-puc",
+    title: "Aarambha 2026 • 1st PUC",
+    price: 0,
+    type: "full",
+    durationMonths: 12
+  },
+  {
+    id: "vijetha-2026-2nd-puc",
+    title: "Vijetha 2026 • 2nd PUC",
+    price: 0,
+    type: "full",
+    durationMonths: 12
+  },
+  {
+    id: "sankalpa-1st-puc",
+    title: "Sankalpa • 1st PUC (Commerce)",
+    price: 0,
+    type: "full",
+    durationMonths: 12
+  },
+  {
+    id: "sadhaka-2nd-puc",
+    title: "Sadhaka • 2nd PUC (Commerce)",
+    price: 0,
     type: "full",
     durationMonths: 12
   }

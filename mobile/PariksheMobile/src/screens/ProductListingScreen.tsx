@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Screen } from "../components/Screen";
 import { lightTheme } from "../theme/theme";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/AppNavigator";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { getProducts } from "../services/catalog";
 
 type Nav = NativeStackNavigationProp<RootStackParamList>;
@@ -20,25 +20,29 @@ export const ProductListingScreen = () => {
   const navigation = useNavigation<Nav>();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const formatPrice = (price: number) => (price > 0 ? `₹${price}` : "Price on request");
 
-  useEffect(() => {
+  useFocusEffect(
+    useCallback(() => {
     let isMounted = true;
-    getProducts()
-      .then(data => {
-        if (isMounted) {
-          setProducts(data.products ?? []);
-        }
-      })
-      .finally(() => {
-        if (isMounted) {
-          setLoading(false);
-        }
-      });
+      setLoading(true);
+      getProducts()
+        .then(data => {
+          if (isMounted) {
+            setProducts(data.products ?? []);
+          }
+        })
+        .finally(() => {
+          if (isMounted) {
+            setLoading(false);
+          }
+        });
 
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+      return () => {
+        isMounted = false;
+      };
+    }, [])
+  );
 
   return (
     <Screen scroll>
@@ -55,7 +59,7 @@ export const ProductListingScreen = () => {
             <Text style={styles.cardMeta}>
               {product.type === "crash" ? "Revision + Grand Tests" : "Live + Recorded + Tests"}
             </Text>
-            <Text style={styles.price}>₹{product.price}</Text>
+            <Text style={styles.price}>{formatPrice(product.price)}</Text>
             <TouchableOpacity
               style={styles.primaryButton}
               onPress={() => navigation.navigate("ProductDetail", { productId: product.id })}
