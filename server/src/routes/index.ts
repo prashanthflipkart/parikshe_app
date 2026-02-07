@@ -1,0 +1,30 @@
+import { Router } from "express";
+import { healthRouter } from "./health";
+import { authRouter } from "./auth";
+import { catalogRouter } from "./catalog";
+import { liveRouter } from "./live";
+import { testsRouter } from "./tests";
+import { doubtsRouter } from "./doubts";
+import { purchasesRouter } from "./purchases";
+import { paymentsRouter } from "./payments";
+import { notificationsRouter } from "./notifications";
+import { mediaRouter } from "./media";
+import { adminRouter } from "./admin";
+import { analyticsRouter } from "./analytics";
+import { discoveryRouter } from "./discovery";
+
+export const apiRouter = Router();
+
+apiRouter.use("/health", healthRouter);
+apiRouter.use("/auth", authRouter);
+apiRouter.use("/catalog", catalogRouter);
+apiRouter.use("/live", liveRouter);
+apiRouter.use("/tests", testsRouter);
+apiRouter.use("/doubts", doubtsRouter);
+apiRouter.use("/purchases", purchasesRouter);
+apiRouter.use("/payments", paymentsRouter);
+apiRouter.use("/notifications", notificationsRouter);
+apiRouter.use("/media", mediaRouter);
+apiRouter.use("/admin", adminRouter);
+apiRouter.use("/analytics", analyticsRouter);
+apiRouter.use("/discovery", discoveryRouter);

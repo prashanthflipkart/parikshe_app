@@ -1,0 +1,12 @@
+.DS_Store
+.env
+.env.*
+node_modules/
+dist/
+build/
+coverage/
+.toolchain/
+android/app/build/
+mobile/PariksheMobile/android/app/build/
+mobile/PariksheMobile/ios/build/
+admin/dist/

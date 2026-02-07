@@ -1,0 +1,210 @@
+{
+  "color": {
+    "light": {
+      "primary": {
+        "600": "#1E5EFF",
+        "500": "#3B74FF",
+        "100": "#E8F0FF"
+      },
+      "secondary": {
+        "600": "#00A389",
+        "100": "#DFF8F3"
+      },
+      "background": "#F7F8FA",
+      "surface": "#FFFFFF",
+      "surfaceAlt": "#F1F3F7",
+      "text": {
+        "primary": "#111827",
+        "secondary": "#4B5563",
+        "muted": "#6B7280"
+      },
+      "border": "#E5E7EB",
+      "success": "#16A34A",
+      "warning": "#F59E0B",
+      "error": "#EF4444",
+      "info": "#0EA5E9"
+    },
+    "dark": {
+      "primary": {
+        "600": "#5B8CFF",
+        "500": "#7AA2FF",
+        "100": "#1A2440"
+      },
+      "secondary": {
+        "600": "#2DD4BF",
+        "100": "#0F2E2A"
+      },
+      "background": "#0B1220",
+      "surface": "#111827",
+      "surfaceAlt": "#0F172A",
+      "text": {
+        "primary": "#F9FAFB",
+        "secondary": "#D1D5DB",
+        "muted": "#9CA3AF"
+      },
+      "border": "#1F2937",
+      "success": "#22C55E",
+      "warning": "#FBBF24",
+      "error": "#F87171",
+      "info": "#38BDF8"
+    },
+    "semanticUsage": {
+      "primary": "main CTA, active tabs, progress",
+      "secondary": "highlights, pills, success accents",
+      "surfaceAlt": "cards in lists, toggles",
+      "warning": "limited access, expired items",
+      "error": "payment failures, test invalid states"
+    }
+  },
+  "typography": {
+    "fontFamily": {
+      "base": "Inter",
+      "kannada": "Noto Sans Kannada"
+    },
+    "fontSize": {
+      "10": 10,
+      "12": 12,
+      "14": 14,
+      "16": 16,
+      "18": 18,
+      "20": 20,
+      "24": 24
+    },
+    "fontWeight": {
+      "regular": 400,
+      "medium": 500,
+      "semibold": 600,
+      "bold": 700
+    },
+    "lineHeight": {
+      "tight": 1.2,
+      "base": 1.4,
+      "relaxed": 1.6
+    },
+    "typeScale": {
+      "display": {
+        "size": 24,
+        "weight": 700,
+        "lineHeight": 1.2
+      },
+      "title": {
+        "size": 20,
+        "weight": 600,
+        "lineHeight": 1.2
+      },
+      "heading": {
+        "size": 18,
+        "weight": 600,
+        "lineHeight": 1.2
+      },
+      "body": {
+        "size": 16,
+        "weight": 400,
+        "lineHeight": 1.4
+      },
+      "bodyStrong": {
+        "size": 16,
+        "weight": 600,
+        "lineHeight": 1.4
+      },
+      "caption": {
+        "size": 12,
+        "weight": 400,
+        "lineHeight": 1.4
+      },
+      "overline": {
+        "size": 10,
+        "weight": 500,
+        "lineHeight": 1.2,
+        "uppercase": true
+      }
+    }
+  },
+  "spacing": {
+    "2": 2,
+    "4": 4,
+    "8": 8,
+    "12": 12,
+    "16": 16,
+    "20": 20,
+    "24": 24,
+    "32": 32,
+    "40": 40
+  },
+  "radius": {
+    "4": 4,
+    "8": 8,
+    "12": 12,
+    "16": 16,
+    "full": 999
+  },
+  "elevation": {
+    "1": "0 1 2 rgba(0,0,0,0.06)",
+    "2": "0 2 6 rgba(0,0,0,0.08)",
+    "3": "0 6 16 rgba(0,0,0,0.12)"
+  },
+  "icon": {
+    "16": 16,
+    "20": 20,
+    "24": 24,
+    "32": 32
+  },
+  "components": {
+    "button": {
+      "height": {
+        "sm": 36,
+        "md": 44,
+        "lg": 52
+      },
+      "radius": 12,
+      "primary": {
+        "bg": "#1E5EFF",
+        "text": "#FFFFFF"
+      },
+      "secondary": {
+        "bg": "#F1F3F7",
+        "text": "#1E5EFF"
+      },
+      "disabled": {
+        "bg": "#D1D5DB",
+        "text": "#9CA3AF"
+      }
+    },
+    "card": {
+      "radius": 12,
+      "bg": "#FFFFFF",
+      "shadow": "0 1 2 rgba(0,0,0,0.06)",
+      "padding": 16
+    },
+    "input": {
+      "height": 44,
+      "radius": 8,
+      "bg": "#FFFFFF",
+      "border": "#E5E7EB",
+      "focus": "#3B74FF"
+    },
+    "chip": {
+      "radius": 999,
+      "bg": "#F1F3F7",
+      "text": "#4B5563",
+      "active": {
+        "bg": "#E8F0FF",
+        "text": "#1E5EFF"
+      }
+    }
+  },
+  "motion": {
+    "fast": "120ms",
+    "base": "180ms",
+    "slow": "240ms",
+    "easing": "cubic-bezier(0.2, 0.0, 0.2, 1)"
+  },
+  "accessibility": {
+    "minTapSize": 44,
+    "contrastTarget": "WCAG AA for text"
+  },
+  "brandTone": {
+    "tone": "friendly, local, confident",
+    "languageMix": "Kannada + English for key labels"
+  }
+}
